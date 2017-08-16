@@ -1,0 +1,145 @@
+<style>
+  .footer {
+    position: fixed; 
+    top: 90%;
+    text-align:right; 
+    width:100%;
+  }
+
+.banner {
+  position: fixed; 
+  top: 0%;
+  text-align:right; 
+  width:100%;
+}
+
+.reveal section img {
+  border: 0px;
+  box-shadow: 0 0 0 0;
+}
+.reveal table td {
+  border: 0px;
+}
+
+.reveal table {
+  border: 0px;
+}
+
+.reveal h1 {
+  font-size: 1.6em;
+}
+
+.reveal figcaption {
+  font-size: 0.4em;
+}
+
+.small-code pre code {
+  font-size: .85em;
+}
+
+.reveal .smalltext {
+  font-size: 0.75em;
+}
+
+</style>
+  
+  
+Deep Learning in action - with DL4J
+========================================================
+author: Sigrid Keydana, Trivadis
+date: 2017/15/09
+autosize: true
+incremental:false
+width: 1200
+
+
+========================================================
+type:prompt
+
+&nbsp; 
+
+&nbsp; 
+
+<h1>Deep Learning in 3 W's</h1>
+
+
+What?
+========================================================
+
+&nbsp;
+
+- Pre-ML programs: input data, input rules, output conclusion
+- Machine Learning (ML): input data, learn mappings/functions, output conclusion
+- Deep Learning: input data, learn _features_, learn mappings/functions, output conclusion
+
+
+  <div class="banner">
+  <img src='tri_logo_high.jpg' border=0 width='200px'>
+  </div>
+
+  
+  <div class="footer">
+  <img src='cube3.png' border=0 width='122px'>
+  </div>
+  
+  
+Example: Features for object classification
+========================================================
+  
+  
+<figure>
+    <img src='features.png' width='40%'/> 
+    <figcaption>Source: Goodfellow et al. 2016, <a href='http://www.deeplearningbook.org/'>Deep Learning</a></figcaption>
+</figure>
+    
+  
+  <div class="banner">
+  <img src='tri_logo_high.jpg' border=0 width='200px'>
+  </div>
+  
+  <div class="footer">
+  <img src='cube3.png' border=0 width='122px'>
+  </div>
+  
+hoW?
+========================================================
+
+&nbsp;
+
+Learning from errors in a deep network
+
+<table>
+<tr>
+<td><img src='deep_nn_wiki.png' width="80%" /></td>
+<td><img src='backprop.png' width="80%" /></td>
+</tr>
+<tr>
+<td class="src">Source: Goodfellow et al. 2016, <a href='http://www.deeplearningbook.org/'>Deep Learning</a></td>
+<td class="src">>Source: Goodfellow et al. 2016, <a href='http://www.deeplearningbook.org/'>Deep Learning</a></td>
+</tr>
+</table>
+  
+  <div class="banner">
+  <img src='tri_logo_high.jpg' border=0 width='200px'>
+  </div>
+  
+  <div class="footer">
+  <img src='cube3.png' border=0 width='122px'>
+  </div>
+  
+  
+
+Why?
+========================================================
+  
+  
+  
+  <div class="banner">
+  <img src='tri_logo_high.jpg' border=0 width='200px'>
+  </div>
+  
+  <div class="footer">
+  <img src='cube3.png' border=0 width='122px'>
+  </div>
+
+
