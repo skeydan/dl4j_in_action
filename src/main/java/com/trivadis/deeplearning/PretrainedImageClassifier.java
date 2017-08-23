@@ -19,7 +19,7 @@ public class PretrainedImageClassifier {
     public static void main(String[] args) throws IOException {
 
         //String path = args[0];
-        String path = "/home/key/pics/claude.jpeg";
+        String path = "/home/key/Downloads/26525687115_420ed7de89_o.jpg";
         ZooModel vgg16 = new VGG16();
         ComputationGraph pretrainedNet = (ComputationGraph) vgg16.initPretrained(PretrainedType.IMAGENET);
 
