@@ -11,6 +11,10 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization;
 import org.nd4j.linalg.dataset.api.preprocessor.VGG16ImagePreProcessor;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,8 +22,8 @@ public class PretrainedImageClassifier {
 
     public static void main(String[] args) throws IOException {
 
-        //String path = args[0];
-        String path = "/home/key/Downloads/26525687115_420ed7de89_o.jpg";
+        //String path = "kremsater.jpg";
+        String path = "claude.jpeg";
         ZooModel vgg16 = new VGG16();
         ComputationGraph pretrainedNet = (ComputationGraph) vgg16.initPretrained(PretrainedType.IMAGENET);
 
@@ -32,10 +36,6 @@ public class PretrainedImageClassifier {
 
         INDArray[] output = pretrainedNet.output(false,image);
         System.out.println(TrainedModels.VGG16.decodePredictions(output[0]));
-
-
-
-
 
     }
 

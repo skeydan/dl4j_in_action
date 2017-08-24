@@ -19,13 +19,13 @@ import java.io.IOException;
 
 public class KerasImageClassifier {
 
-    private static final Logger log = LoggerFactory.getLogger(VAEAnomalyDetectorUnsw.class);
+    private static final Logger log = LoggerFactory.getLogger(KerasImageClassifier.class);
     private int seed = 777;
 
     public static void main(String[] args) throws IOException, InvalidKerasConfigurationException, UnsupportedKerasConfigurationException {
 
-        //String path = "/home/key/code/R/cracks/data/test/crack/img_10_1121_449.png";
-        String path = "/home/key/code/R/cracks/data/test/nocrack/img_10_225_673.png";
+        String path = "/home/key/code/R/cracks/data/test/crack/img_10_1121_449.png";
+        //String path = "/home/key/code/R/cracks/data/test/nocrack/img_10_225_673.png";
         String modelPath = "/home/key/code/R/cracks/model_filter323264_kernel3_epochs20_lr001.h5";
 
         MultiLayerNetwork network = KerasModelImport.importKerasSequentialModelAndWeights(modelPath);

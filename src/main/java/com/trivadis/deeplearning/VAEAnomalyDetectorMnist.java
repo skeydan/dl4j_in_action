@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class VAEAnomalyDetectorMnist extends VAEAnomalyDetector {
+public class VAEAnomalyDetectorMnist {
 
     private static final Logger log = LoggerFactory.getLogger(VAEAnomalyDetectorMnist.class);
     private int seed = 777;

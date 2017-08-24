@@ -45,23 +45,23 @@ import java.util.List;
 import org.apache.commons.math3.stat.descriptive.*;
 
 
-public class VAEAnomalyDetectorUnsw extends VAEAnomalyDetector {
+public class VAEAnomalyDetectorUnsw {
 
     private static final Logger log = LoggerFactory.getLogger(VAEAnomalyDetectorUnsw.class);
     private int seed = 777;
     File modelFile = new File("VAEUnsw.zip");
     boolean saveUpdater = false;
-    boolean modelExists = false;
+    boolean modelExists = true;
 
     private int minibatchSize = 128;
     //private double learningRate = 0.0001;
     private double learningRate = 0.01;
     private int numEpochs = 500;
-    private int reconstructionNumSamples = 16;
+    private int reconstructionNumSamples = 32;
 
     private int inputSize = 194; // number of features
-    private int[] encoderSizes = new int[]{32};
-    private int[] decoderSizes = new int[]{32};
+    private int[] encoderSizes = new int[]{32,8};
+    private int[] decoderSizes = new int[]{8,32};
 
     private int latentSize = 2;
     private Activation latentActivation = Activation.IDENTITY;
@@ -126,12 +126,12 @@ public class VAEAnomalyDetectorUnsw extends VAEAnomalyDetector {
                    .weightInit(WeightInit.XAVIER)
                    .list()
                    .layer(0, new VariationalAutoencoder.Builder()
-                           .activation(Activation.LEAKYRELU)
+                           .activation(Activation.TANH)
                            .encoderLayerSizes(encoderSizes)
                            .decoderLayerSizes(decoderSizes)
                            .pzxActivationFunction(latentActivation)     //p(z|data) activation function
-                           .reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID)) // for modelling binary data (or data in range 0 to 1)
-                           //.reconstructionDistribution(new GaussianReconstructionDistribution(Activation.TANH))
+                           //.reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID)) // for modelling binary data (or data in range 0 to 1)
+                           .reconstructionDistribution(new GaussianReconstructionDistribution(Activation.TANH))
                            .nIn(inputSize)
                            .nOut(latentSize)
                            .build())
