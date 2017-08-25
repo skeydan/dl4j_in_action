@@ -9,6 +9,7 @@ import org.deeplearning4j.nn.conf.layers.variational.VariationalAutoencoder;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.nn.weights.WeightInit;
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener;
+import org.deeplearning4j.util.ModelSerializer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -33,6 +34,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -41,6 +43,9 @@ public class VAEAnomalyDetectorMnist {
 
     private static final Logger log = LoggerFactory.getLogger(VAEAnomalyDetectorMnist.class);
     private int seed = 777;
+    File modelFile = new File("VAEMnist.zip");
+    boolean modelExists = true;
+    boolean saveUpdater = false;
 
     private static int minibatchSize = 128;
     private static int numEpochs = 50;
@@ -75,37 +80,42 @@ public class VAEAnomalyDetectorMnist {
         INDArray testFeatures = testdata.getFeatures();
         INDArray testLabels = testdata.getLabels();
 
-        Nd4j.getRandom().setSeed(seed);
-        MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
-                .learningRate(0.05)
-                .updater(Updater.ADAM)
-                .weightInit(WeightInit.XAVIER)
-                .regularization(true).l2(1e-4)
-                .list()
-                .layer(0, new VariationalAutoencoder.Builder()
-                        .activation(Activation.LEAKYRELU)
-                        .encoderLayerSizes(encoderSizes)
-                        .decoderLayerSizes(decoderSizes)
-                        .pzxActivationFunction(latentActivation)     //p(z|data) activation function
-                        //Bernoulli reconstruction distribution + sigmoid activation - for modelling binary data (or data in range 0 to 1)
-                        .reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID))
-                        .nIn(inputSize)
-                        .nOut(latentSize)
-                        .build())
-                .pretrain(true).backprop(false).build();
+        MultiLayerNetwork net;
+        if(modelExists) {
+            net = ModelSerializer.restoreMultiLayerNetwork(modelFile);
+        } else {
+            Nd4j.getRandom().setSeed(seed);
+            MultiLayerConfiguration conf = new NeuralNetConfiguration.Builder()
+                    .learningRate(0.05)
+                    .updater(Updater.ADAM)
+                    .weightInit(WeightInit.XAVIER)
+                    .regularization(true).l2(1e-4)
+                    .list()
+                    .layer(0, new VariationalAutoencoder.Builder()
+                            .activation(Activation.LEAKYRELU)
+                            .encoderLayerSizes(encoderSizes)
+                            .decoderLayerSizes(decoderSizes)
+                            .pzxActivationFunction(latentActivation)
+                            .reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID))
+                            .nIn(inputSize)
+                            .nOut(latentSize)
+                            .build())
+                    .pretrain(true).backprop(false).build();
 
-        MultiLayerNetwork net = new MultiLayerNetwork(conf);
-        net.init();
+            net = new MultiLayerNetwork(conf);
+            net.init();
+
+            net.setListeners(new ScoreIterationListener(100));
+
+            for (int i = 0; i < numEpochs; i++) {
+                net.fit(trainIter);
+                log.info("Finished epoch " + (i + 1) + " of " + numEpochs);
+            }
+            ModelSerializer.writeModel(net, modelFile, saveUpdater);
+        }
 
         org.deeplearning4j.nn.layers.variational.VariationalAutoencoder vae
                 = (org.deeplearning4j.nn.layers.variational.VariationalAutoencoder) net.getLayer(0);
-
-        net.setListeners(new ScoreIterationListener(100));
-
-        for (int i = 0; i < numEpochs; i++) {
-            net.fit(trainIter);
-            log.info("Finished epoch " + (i + 1) + " of " + numEpochs);
-        }
 
         INDArray latentSpaceValues = vae.activate(testFeatures, false);
 

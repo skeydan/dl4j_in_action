@@ -126,7 +126,7 @@ public class VAEAnomalyDetectorUnsw {
                    .weightInit(WeightInit.XAVIER)
                    .list()
                    .layer(0, new VariationalAutoencoder.Builder()
-                           .activation(Activation.TANH)
+                           .activation(Activation.RELU)
                            .encoderLayerSizes(encoderSizes)
                            .decoderLayerSizes(decoderSizes)
                            .pzxActivationFunction(latentActivation)     //p(z|data) activation function
