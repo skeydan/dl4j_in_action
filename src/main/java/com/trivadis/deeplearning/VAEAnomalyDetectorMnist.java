@@ -200,6 +200,8 @@ public class VAEAnomalyDetectorMnist {
         }
 
 
+        PlotUtil.plotData(latentSpaceValues, testLabels, plotMin, plotMax);
+
         MNISTVisualizer bestVisualizer = new MNISTVisualizer(2.0, best, "Best (Highest Rec. Prob)");
         bestVisualizer.visualize();
 
@@ -212,7 +214,6 @@ public class VAEAnomalyDetectorMnist {
         MNISTVisualizer worstReconstructions = new MNISTVisualizer(2.0, worstReconstruction, "Worst - Reconstructions");
         worstReconstructions.visualize();
 
-        PlotUtil.plotData(latentSpaceValues, testLabels, plotMin, plotMax);
 
 
 

@@ -129,8 +129,8 @@ public class VAEAnomalyDetectorUnsw {
                            .activation(Activation.RELU)
                            .encoderLayerSizes(encoderSizes)
                            .decoderLayerSizes(decoderSizes)
-                           .pzxActivationFunction(latentActivation)     //p(z|data) activation function
-                           //.reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID)) // for modelling binary data (or data in range 0 to 1)
+                           .pzxActivationFunction(latentActivation)
+                           //.reconstructionDistribution(new BernoulliReconstructionDistribution(Activation.SIGMOID)) 
                            .reconstructionDistribution(new GaussianReconstructionDistribution(Activation.TANH))
                            .nIn(inputSize)
                            .nOut(latentSize)
